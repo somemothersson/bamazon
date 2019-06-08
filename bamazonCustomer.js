@@ -4,106 +4,108 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
-  host: "localhost",
+    host: "localhost",
 
-  // Your port; if not 3306
-  port: 3306,
+    // Your port; if not 3306
+    port: 3306,
 
-  // Your username
-  user: "root",
+    // Your username
+    user: "root",
 
-  // Your password
-  password: "W0nd3rbr3@d",
-  database: "bamazon_db"
+    // Your password
+    password: "W0nd3rbr3@d",
+    database: "bamazon_db"
 });
 
-connection.connect(function(err) {
-  if (err) throw err;
-  bamStore();
+connection.connect(function (err) {
+    if (err) throw err;
+    queryStock();
 });
+
+function queryStock() {
+    console.log("Hello, welcome to Bamazon - Please see our current stocked items")
+    connection.query(`SELECT * FROM bamazon_db.products
+    `, function (err, res) {
+            if (err) throw err;
+            // Log all results of the SELECT statement
+            console.table(res);
+            connection.end();
+
+        });
+    setTimeout(bamStore, 1000);
+}
 // Running this application will first display all of the items available for sale. 
 //Include the ids, names, and prices of products for sale.
 function bamStore() {
     inquirer
-      .prompt({
-        name: "action",
-        type: "list",
-        message: "What would you like to do?",
-        choices: [
-          "Show Current Stock",
-          "Purchase Items",
-          "Exit"
-        ]
-      })
-      .then(function(answer) {
+        .prompt({
+            name: "action",
+            type: "list",
+            message: "What would you like to do?",
+            choices: [
+                "Show Current Stock",
+                "Purchase Items",
+                "Exit"
+            ]
+        })
+        .then(function (answer) {
 
-        switch (answer.action) {
-        case "Show Current Stock":
-            queryStock();
-            break;
-        case "Purchase Items":
-          
-          break;
-        case "Exit":
-        connection.end();
-        break;
-        }
-      });
-  }
-  //The first should ask them the ID of the product they would like to buy.
-  function buyProduct() {
+            switch (answer.action) {
+                case "Show Current Stock":
+                    queryStock();
+                    break;
+                case "Purchase Items":
+                    buyProduct()
+                    break;
+                case "Exit":
+                    connection.end();
+                    break;
+            }
+        });
+}
+
+//The first should ask them the ID of the product they would like to buy.
+function buyProduct() {
     inquirer
-      .prompt({
-        name: "action",
-        type: "list",
-        message: "What would you like to buy?",
-        choices: [
-            "Sunglasses",
-            "T-Shirt",
-            "Oxford Shirt", 
-            "Polo Shirt", 
-            "Trousers", 
-            "Jeans",
-            "Shorts",
-            "Sneaker",
-            "Wing Tips",
-            "Chelsea Boots",
-            "Belt",
-            "Socks"
-        
-        ]
-      },
-      {
-        name: "quantity",
-        type: "input",
-        message: "How many Would you like to purchase?",
-        
-      },)
-      .then(function(answer) {
-        switch (answer.action) {
-        case "Find songs by artist":
-          artistSearch();
-          break;
-  
-        case "Find all artists who appear more than once":
-          multiSearch();
-          break;
-  
-        case "Find data within a specific range":
-          rangeSearch();
-          break;
-  
-        case "Search for a specific song":
-          songSearch();
-          break;
-            
-        case "exit":
-          connection.end();
-          break;
-        }
-      });
-  }
+        .prompt({
+            name: "action",
+            type: "list",
+            message: "What would you like to buy?",
+            choices: [
+                "Sunglasses",
+                "T-Shirt",
+                "Oxford Shirt",
+                "Polo Shirt",
+                "Trousers",
+                "Jeans",
+                "Shorts",
+                "Sneaker",
+                "Wing Tips",
+                "Chelsea Boots",
+                "Belt",
+                "Socks"
 
+            ]
+        },
+            {
+                name: "quantity",
+                type: "input",
+                message: "How many Would you like to purchase?",
+
+            })
+        .then((response) => {
+            let item = response.choices;
+            let qty = response.quantity;
+
+            connection.query(`SELECT * FROM bamazon_db.products
+            `, function (err, res) {
+                    if (err) throw err;
+                    // Log all results of the SELECT statement
+                    console.table(res);
+                    connection.end();
+        
+                });
+}
 
 //The app should then prompt users with two messages.
 
