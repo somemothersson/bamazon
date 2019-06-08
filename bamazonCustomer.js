@@ -67,7 +67,7 @@ function bamStore() {
 //The first should ask them the ID of the product they would like to buy.
 function buyProduct() {
     inquirer
-        .prompt({
+        .prompt([{
             name: "action",
             type: "list",
             message: "What would you like to buy?",
@@ -92,20 +92,22 @@ function buyProduct() {
                 type: "input",
                 message: "How many Would you like to purchase?",
 
-            })
-        .then((response) => {
-            let item = response.choices;
-            let qty = response.quantity;
+            }])
+        .then((answer) => {
+            let item = answer.choices;
+            let qty = answer.quantity;
 
-            connection.query(`SELECT * FROM bamazon_db.products
-            `, function (err, res) {
+            connection.query(`SELECT  * FROM products WHERE`, { product_name: item }, function (err, response) {
+                    console.log(response);
                     if (err) throw err;
                     // Log all results of the SELECT statement
-                    console.table(res);
+                    
                     connection.end();
-        
+
                 });
+        });
 }
+
 
 //The app should then prompt users with two messages.
 
