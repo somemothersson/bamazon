@@ -17,10 +17,7 @@ var connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
-connection.connect(function (err) {
-    if (err) throw err;
-    queryStock();
-});
+queryStock()
 
 function queryStock() {
     console.log("Hello, welcome to Bamazon - Please see our current stocked items")
@@ -29,7 +26,7 @@ function queryStock() {
             if (err) throw err;
             // Log all results of the SELECT statement
             console.table(res);
-            connection.end();
+
 
         });
     setTimeout(bamStore, 1000);
@@ -68,7 +65,7 @@ function bamStore() {
 function buyProduct() {
     inquirer
         .prompt([{
-            name: "action",
+            name: "product",
             type: "list",
             message: "What would you like to buy?",
             choices: [
@@ -87,25 +84,41 @@ function buyProduct() {
 
             ]
         },
-            {
-                name: "quantity",
-                type: "input",
-                message: "How many Would you like to purchase?",
+        {
+            name: "quantity",
+            type: "input",
+            message: "How many Would you like to purchase?",
 
-            }])
+        }])
         .then((answer) => {
-            let item = answer.choices;
+            let item = answer.product;
             let qty = answer.quantity;
-
-            connection.query(`SELECT  * FROM products WHERE`, { product_name: item }, function (err, response) {
-                    console.log(response);
+            connection.query(`SELECT stock_quantity FROM bamazon_db.products
+            WHERE product_name = '${item}'`, function (err, response) {
                     if (err) throw err;
-                    // Log all results of the SELECT statement
-                    
-                    connection.end();
-
+                    var stock = response[0].stock_quantity
+                    var newStock = stock - qty
+                    console.log(response[0].stock_quantity - qty)
+                    // obj = JSON.parse(json)
+                    // console.log(obj.stock_quantity);
                 });
+            if (newStock < 0) {
+                console.log("Insufficient Quantity")
+               queryStock()
+            } else if (newStock > 0) {
+
+                connection.query(`UPDATE bamazon_db.products
+                    SET stock_quantity = ${newStock}
+                    WHERE product_name = '${item}'`, function (err, response) {
+                        if (err) throw err;
+
+                    });
+            }
+
+
+
         });
+
 }
 
 
