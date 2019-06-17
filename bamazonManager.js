@@ -81,11 +81,11 @@ function queryStock() {
     
 }
 
-//show items that have quantities of less than 10
+//show items that have quantities of less than 5
 function lowStock() {
     console.log("Low Inventory Items")
     connection.query(`SELECT * FROM bamazon_db.products
-    WHERE stock_quantity <10
+    WHERE stock_quantity <5
     `, function (err, response) {
             if (err) throw err;
             // Log all results of the SELECT statement
@@ -105,7 +105,7 @@ function updateStock() {
         {
             name: "quantity",
             type: "input",
-            message: `what is the new value for ${answer.product}?`,
+            message: `What is the number of stock you need to add for ${answer.product}?`,
 
         }])
         .then((answer) => {
