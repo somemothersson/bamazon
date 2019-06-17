@@ -92,6 +92,7 @@ function buyProduct() {
             let item = answer.product;
             let qty = answer.quantity;
             let newStock = 0;
+            //Insufficient quantity!`, and then prevent the order from going through.
             connection.query(`SELECT stock_quantity FROM bamazon_db.products
             WHERE product_name = '${item}'`, function (err, response) {
                     var stock = response[0].stock_quantity
