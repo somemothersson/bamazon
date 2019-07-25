@@ -92,11 +92,15 @@ function buyProduct() {
         let item = answer.product;
         let qty = answer.quantity;
         let newStock = 0;
+        let totalCost = 0;
         //Insufficient quantity!`, and then prevent the order from going through.
-        connection.query(`SELECT stock_quantity FROM bamazon_db.products
+        connection.query(`SELECT stock_quantity, price FROM bamazon_db.products
         WHERE product_name = '${item}'`, function (err, response) {
-            var stock = response[0].stock_quantity
-            newStock = stock - qty
+            var stock = response[0].stock_quantity;
+            var price = response[0].price;
+            console.log(price)
+            newStock = stock - qty;
+            totalCost = price * qty;
             // console.log(newStock)
             if (newStock < 0) {
                 console.log(`
@@ -115,7 +119,7 @@ function buyProduct() {
                         if (err) throw err;
                         connection.end();
                     });
-                console.log(`Your ${qty} ${item} are on the way!`)
+                console.log(`Your total of $${totalCost} for ${qty} ${item} are on the way!`)
 
             }
         });
