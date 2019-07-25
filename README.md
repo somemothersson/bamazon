@@ -8,7 +8,8 @@ bamazon is an AS-400/Amazon like storefront with the MySQL and Node JS utilizing
   * Can take in orders from customers and deplete stock from the store's inventory.
 
   Running this application will first display all of the items available for sale. Include the ids, names, and prices of products for sale.
-  ![Show Current Stock](./supplemental/images/CurrentStock.png)
+
+![Show Current Stock](./supplemental/images/CurrentStock.png)
 
 1. The app on run will load the current stock and then uses `Enquirer` to prompt users with.
 
@@ -19,7 +20,7 @@ bamazon is an AS-400/Amazon like storefront with the MySQL and Node JS utilizing
 2. Once the customer has placed the order, the application will if your store has enough of the product to meet the customer's request.
 
    * If the quantity being purchased is greater than the stock the app will diplay `Insufficient quantity!`, and then prevent the order from going through.
-   ![Insufficient Quantity](./supplemental/images/InsufficientQuantity.png)
+![Insufficient Quantity](./supplemental/images/InsufficientQuantity.png)
    * If the store _does_ have enough of the product, it will fulfill the customer's order.
       * Updating the SQL database to reflect the remaining quantity.
       * Once the update goes through, show the customer the total cost of their purchase along with the quantity and item.
