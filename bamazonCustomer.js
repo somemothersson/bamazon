@@ -98,7 +98,7 @@ function buyProduct() {
         WHERE product_name = '${item}'`, function (err, response) {
             var stock = response[0].stock_quantity;
             var price = response[0].price;
-            console.log(price)
+            // console.log(price)
             newStock = stock - qty;
             totalCost = price * qty;
             // console.log(newStock)

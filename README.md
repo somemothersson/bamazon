@@ -4,28 +4,47 @@
 
 ## Overview
 
-bamazon is an AS-400 like storefront with the MySQL and Node JS utilizing Inquirer for Navigation and Execution. The app has two components
+bamazon is an AS-400/Amazon like storefront with the MySQL and Node JS utilizing Inquirer for Navigation and Execution. The app has two components
+
 ###bamazonCustomer
   * Can take in orders from customers and deplete stock from the store's inventory.
 
-  Running this application will first display all of the items available for sale. Include the ids, names, and prices of products for sale.
+  Running this application will first display all of the items available for sale. Include the ids, names, and prices of products for sale.[Show Current Stock](./supplemental/images/CurrentStock.png)
 
 1. The app on run will load the current stock and then uses `Enquirer` to prompt users with.
 
    * The product they would like to buy.
+
    * How many units of the product they would like to buy.
 
 2. Once the customer has placed the order, the application will if your store has enough of the product to meet the customer's request.
 
-   * If the quantity being purchased is greater than the stock the app will diplay `Insufficient quantity!`, and then prevent the order from going through.
+   * If the quantity being purchased is greater than the stock the app will diplay `Insufficient quantity!`, and then prevent the order from going through.[Insufficient Quantity](./supplemental/images/InsufficientQuantity.png)
    * If the store _does_ have enough of the product, it will fulfill the customer's order.
       * Updating the SQL database to reflect the remaining quantity.
-      * Once the update goes through, show the customer the total cost of their purchase.
+      * Once the update goes through, show the customer the total cost of their purchase along with the quantity and item.
+      * [Purchased item](./supplemental/images/purchaseItem.png)
 
 ###bamazonManager
-  * Enables management view to view current stock, run a low inventory report, add to the current inventory, and and new products
+* Has set of menu options:
 
-Make sure you save and require the MySQL and Inquirer npm packages in your homework files--your app will need them for data input and storage.
+    * View Products for Sale
+    
+    * View Low Inventory
+    
+    * Add to Inventory
+    
+    * Add New Product
+    [MGMT View](./supplemental/images/mgmtView.png)
+
+  * If a manager selects `View Products for Sale`, the app will list every available item: the item IDs, names, prices, and quantities.
+
+  * If a manager selects `View Low Inventory`, then it will list all items with an inventory count lower than 15.
+
+  * If a manager selects `Add to Inventory`, the app will display a prompt that will let the manager "add more" of any item currently in the store.
+
+  * If a manager selects `Add New Product`, it will allow the manager to add a completely new product to the store.
+
 
 
 ## MySQL Dependency
@@ -74,24 +93,7 @@ Make sure you save and require the MySQL and Inquirer npm packages in your homew
 
 * Create a new Node application called `bamazonManager.js`. Running this application will:
 
-  * List a set of menu options:
-
-    * View Products for Sale
-    
-    * View Low Inventory
-    
-    * Add to Inventory
-    
-    * Add New Product
-
-  * If a manager selects `View Products for Sale`, the app should list every available item: the item IDs, names, prices, and quantities.
-
-  * If a manager selects `View Low Inventory`, then it should list all items with an inventory count lower than five.
-
-  * If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
-
-  * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
-
+  
 - - -
 
 * If you finished Challenge #2 and put in all the hours you were willing to spend on this activity, then rest easy! Otherwise continue to the next and final challenge.
