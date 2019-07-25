@@ -23,8 +23,8 @@ queryStock()
 
 function queryStock() {
     console.log("Hello, welcome to Bamazon - Please see our current stocked items")
-    connection.query(`SELECT * FROM bamazon_db.products
-    `, function (err, response) {
+    connection.query("SELECT * FROM bamazon_db.products"
+    , function (err, response) {
             if (err) throw err;
             // Log all results of the SELECT statement
             console.table(response);
@@ -99,8 +99,15 @@ function buyProduct() {
             newStock = stock - qty
             // console.log(newStock)
             if (newStock < 0) {
-                console.log("Insufficient Quantity")
-                queryStock()
+                console.log(`
+                *******************************
+
+                Insufficient Quantity
+                
+                *******************************
+                `)
+              
+                setTimeout(queryStock, 2000)
             } else if (newStock > 0) {
                 connection.query(`UPDATE bamazon_db.products
                 SET stock_quantity = '${newStock}' 
